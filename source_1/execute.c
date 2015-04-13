@@ -175,12 +175,39 @@ void ctrl_Z(){
     
 	//修改前台作业的状态及相应的命令格式，并打印提示信息
     strcpy(now->state, STOPPED); 
-    now->cmd[strlen(now->cmd)] = '&';
+    now->cmd[strlen(now->cmd)] = '\0';
     now->cmd[strlen(now->cmd) + 1] = '\0';
     printf("[%d]\t%s\t\t%s\n", now->pid, now->state, now->cmd);
     
 	//发送SIGSTOP信号给正在前台运作的工作，将其停止
     kill(fgPid, SIGSTOP);
+    fgPid = 0;
+}
+
+/*组合键ctrl+c*/
+void ctrl_C(){
+   Job *now = NULL;
+   if(fgPid == 0){ //前台没有作业则直接返回
+        return;
+    }
+        //
+    ingnore = 1;
+    
+	now = head;
+	while(now != NULL && now->pid != fgPid)
+		now = now->next;
+    
+    if(now == NULL){ //未找到前台作业，则根据fgPid添加前台作业
+        now = addJob(fgPid);
+    }
+    
+		    //修改前台作业的状态及相应的命令格式，并打印提示信息
+    strcpy(now->state, TERMINATED); 
+    now->cmd[strlen(now->cmd)] = '\0';
+    printf("[%d]\t%s\t\t%s\n", now->pid, now->state, now->cmd);
+    
+	            //发送SIGTERM信号给正在前台运作的工作，将其终止
+    kill(fgPid, SIGTERM);
     fgPid = 0;
 }
 
@@ -319,6 +346,7 @@ void init(){
     action.sa_flags = SA_SIGINFO;
     sigaction(SIGCHLD, &action, NULL);
     signal(SIGTSTP, ctrl_Z);
+    signal(SIGINT, ctrl_C);
 }
 
 /*******************************************************
