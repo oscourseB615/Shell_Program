@@ -208,6 +208,7 @@ void ctrl_C(){
     
 	            //发送SIGTERM信号给正在前台运作的工作，将其终止
     kill(fgPid, SIGTERM);
+				//将终止的进程的jobs信息删除.
     if(now == head){
         head = now->next;
     }else{
