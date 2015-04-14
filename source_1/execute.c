@@ -186,7 +186,7 @@ void ctrl_Z(){
 
 /*组合键ctrl+c*/
 void ctrl_C(){
-   Job *now = NULL;
+   Job *now = NULL, *last = NULL;
    if(fgPid == 0){ //前台没有作业则直接返回
         return;
     }
@@ -208,6 +208,12 @@ void ctrl_C(){
     
 	            //发送SIGTERM信号给正在前台运作的工作，将其终止
     kill(fgPid, SIGTERM);
+    if(now == head){
+        head = now->next;
+    }else{
+        last->next = now->next;
+    }
+    free(now);
     fgPid = 0;
 }
 
