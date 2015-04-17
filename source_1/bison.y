@@ -14,10 +14,11 @@
 %token OUTPUT
 %token AND
 %token EOL
+%token OR
 
 %%
 line            :   /* empty */
-                    |command EOL				    {execute();  commandDone = 1; return; }
+                    |command EOL				    { printf("inputBuff:%s\n", inputBuff); execute(); commandDone = 1; return; }
 ;
 
 command         :   fgCommand						{    }
@@ -25,6 +26,7 @@ command         :   fgCommand						{    }
 ;
 
 fgCommand       :   simpleCmd						{    }
+                    |fgCommand OR simpleCmd         {  printf("One Pipe\n");  }
 ;
 
 simpleCmd       :   progInvocation inputRedirect outputRedirect
@@ -34,7 +36,7 @@ progInvocation  :   STRING args						{    }
 ;
 
 inputRedirect   :   /* empty */						
-                    |INPUT STRING                   {    }
+                    |INPUT STRING                   {   }
 ;
 
 outputRedirect  :   /* empty */						

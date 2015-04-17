@@ -1,0 +1,12 @@
+bison.tab.c
+bison.tab.o
+bison.y
+b.txt
+execute.c
+execute.o
+flex.l
+global.h
+lex.yy.c
+makefile
+user-sh
+ysh.conf

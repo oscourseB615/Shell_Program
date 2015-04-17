@@ -8,18 +8,21 @@
 		INPUT	= 259,
 		OUTPUT	= 260,
 		AND		= 261,
-		EOL		= 262
+		EOL		= 262,
+		OR		= 263
 	};
 
 %}
 
 %%
 
+"|"				{strcat(inputBuff, " "); strcat(inputBuff, yytext); return OR;}
 "<"				{strcat(inputBuff, " "); strcat(inputBuff, yytext); return INPUT;}
 ">"				{strcat(inputBuff, " "); strcat(inputBuff, yytext); return OUTPUT;}
 "&"				{strcat(inputBuff, " "); strcat(inputBuff, yytext); return AND;}
+"*"				{strcat(inputBuff, "*");}
 [ \t]+			{}
 \n 				{return EOL;}
-[^ \n\t]+		{strcat(inputBuff, " "); strcat(inputBuff, yytext); return STRING;}
+[^ \n\t]+		{printf("name :%s\n", yytext);strcat(inputBuff, " "); strcat(inputBuff, yytext); return STRING;}
 
 %%

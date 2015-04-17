@@ -8,7 +8,7 @@ extern "C" {
     #define HISTORY_LEN 10
     
     #define STOPPED "stopped"
-    #define TERMINATED "terminated"
+    #define KILLED "killed"
     #define RUNNING "running"
     #define DONE    "done"
 
@@ -20,6 +20,7 @@ extern "C" {
         char **args;    // 命令及参数
         char *input;    // 输入重定向
         char *output;   // 输出重定向
+        int pipe_fd[2];
     } SimpleCmd;
 
     typedef struct History {
@@ -36,7 +37,7 @@ extern "C" {
     } Job;
     
     char inputBuff[100];  //存放输入的命令
-    
+
     void init();
     void addHistory(char *history);
     void execute();
