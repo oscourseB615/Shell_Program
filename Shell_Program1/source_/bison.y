@@ -9,6 +9,7 @@
     void yyerror ();
     
     int commandDone, i;
+    char c;
 %}
 
 %token STRING
@@ -68,11 +69,14 @@ int main(int argc, char** argv) {
     init();
     commandDone = 0;
 
-    printf("C.Y.L@computer:%s$ ", get_current_dir_name()); //打印提示符信息
+    printf("cyl@computer:%s$ ", get_current_dir_name()); //打印提示符信息
 
 	while(1)
 	{
         i = 0;
+        c = getchar();
+        if(c != -1)
+            ungetc(c,stdin);
 		yyparse();
         strcpy(lastBuff, inputBuff);
 
@@ -82,7 +86,7 @@ int main(int argc, char** argv) {
 		}
 
         inputBuff[0] = '\0';
-        printf("C.Y.L@computer:%s$ ", get_current_dir_name()); //打印提示符信息
+        printf("cyl@computer:%s$ ", get_current_dir_name()); //打印提示符信息
 	}
 	return EXIT_SUCCESS;
 }

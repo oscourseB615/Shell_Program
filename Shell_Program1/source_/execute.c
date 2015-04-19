@@ -104,7 +104,8 @@ Job* addJob(pid_t pid){
     
 	//初始化新的job
     job->pid = pid;
-    strcpy(job->cmd, lastBuff);
+    // strcpy(job->cmd, lastBuff);
+    strcpy(job->cmd, inputBuff);
     strcpy(job->state, RUNNING);
     job->next = NULL;
     
@@ -192,7 +193,7 @@ void ctrl_C(){
         return;
     }
         //
-    ingnore = 1;
+    ingnore = 0;
 
 	now = head;
     last = head;
@@ -214,13 +215,13 @@ void ctrl_C(){
     
 	            //发送SIGTERM信号给正在前台运作的工作，将其终止
     kill(fgPid, SIGKILL);
-    if (now == head){
-        head = now->next;
-    }
-    else{
-        last->next = now->next;
-    }
-    free(now);
+    // if (now == head){
+    //     head = now->next;
+    // }
+    // else{
+    //     last->next = now->next;
+    // }
+    //free(now);
     fgPid = 0;
 }
 
@@ -247,6 +248,7 @@ void fg_exec(int pid){
     strcpy(now->state, RUNNING);
     
     signal(SIGTSTP, ctrl_Z); //设置signal信号，为下一次按下组合键Ctrl+Z做准备
+    // signal(SIGINT, ctrl_C);
     i = strlen(now->cmd) - 1;
     
     while(i >= 0 && now->cmd[i] != '&')
@@ -412,6 +414,9 @@ void execOuterCmd(SimpleCmd *cmd){
                 kill(getppid(), SIGUSR1);
             }
             
+            signal(SIGINT, SIG_IGN);
+            signal(SIGTSTP, SIG_IGN); // backstage omit 
+
             justArgs(cmd->args[0]);
             // printf("--------------> Start OutSide Order\n");
             if(execv(cmdBuff, cmd->args) < 0){ //执行命令
@@ -425,6 +430,9 @@ void execOuterCmd(SimpleCmd *cmd){
                 // printf("--------------> Start BackStage Order\n");
                 fgPid = 0; //pid置0，为下一命令做准备
                 addJob(pid); //增加新的作业
+
+                sleep(1); // plus
+
                 kill(pid, SIGUSR1); //子进程发信号，表示作业已加入
                 
                 //等待子进程输出

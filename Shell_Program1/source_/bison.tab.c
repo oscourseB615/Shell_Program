@@ -74,8 +74,9 @@
     void yyerror ();
     
     int commandDone, i;
+    char c;
 
-#line 79 "bison.tab.c" /* yacc.c:339  */
+#line 80 "bison.tab.c" /* yacc.c:339  */
 
 # ifndef YY_NULLPTR
 #  if defined __cplusplus && 201103L <= __cplusplus
@@ -132,7 +133,7 @@ int yyparse (void);
 
 /* Copy the second part of user declarations.  */
 
-#line 136 "bison.tab.c" /* yacc.c:358  */
+#line 137 "bison.tab.c" /* yacc.c:358  */
 
 #ifdef short
 # undef short
@@ -430,8 +431,8 @@ static const yytype_uint8 yytranslate[] =
   /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    22,    22,    23,    26,    27,    30,    31,    34,    37,
-      40,    41,    44,    45,    48,    49
+       0,    23,    23,    24,    27,    28,    31,    32,    35,    38,
+      41,    42,    45,    46,    49,    50
 };
 #endif
 
@@ -1205,61 +1206,61 @@ yyreduce:
   switch (yyn)
     {
         case 3:
-#line 23 "bison.y" /* yacc.c:1646  */
+#line 24 "bison.y" /* yacc.c:1646  */
     { execute(); commandDone = 1; return; }
-#line 1211 "bison.tab.c" /* yacc.c:1646  */
+#line 1212 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 4:
-#line 26 "bison.y" /* yacc.c:1646  */
+#line 27 "bison.y" /* yacc.c:1646  */
     {    }
-#line 1217 "bison.tab.c" /* yacc.c:1646  */
+#line 1218 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 5:
-#line 27 "bison.y" /* yacc.c:1646  */
+#line 28 "bison.y" /* yacc.c:1646  */
     {    }
-#line 1223 "bison.tab.c" /* yacc.c:1646  */
+#line 1224 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 6:
-#line 30 "bison.y" /* yacc.c:1646  */
+#line 31 "bison.y" /* yacc.c:1646  */
     {    }
-#line 1229 "bison.tab.c" /* yacc.c:1646  */
+#line 1230 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 7:
-#line 31 "bison.y" /* yacc.c:1646  */
+#line 32 "bison.y" /* yacc.c:1646  */
     {    }
-#line 1235 "bison.tab.c" /* yacc.c:1646  */
+#line 1236 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 9:
-#line 37 "bison.y" /* yacc.c:1646  */
+#line 38 "bison.y" /* yacc.c:1646  */
     {    }
-#line 1241 "bison.tab.c" /* yacc.c:1646  */
+#line 1242 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 11:
-#line 41 "bison.y" /* yacc.c:1646  */
+#line 42 "bison.y" /* yacc.c:1646  */
     {   }
-#line 1247 "bison.tab.c" /* yacc.c:1646  */
+#line 1248 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 13:
-#line 45 "bison.y" /* yacc.c:1646  */
+#line 46 "bison.y" /* yacc.c:1646  */
     {    }
-#line 1253 "bison.tab.c" /* yacc.c:1646  */
+#line 1254 "bison.tab.c" /* yacc.c:1646  */
     break;
 
   case 15:
-#line 49 "bison.y" /* yacc.c:1646  */
+#line 50 "bison.y" /* yacc.c:1646  */
     {    }
-#line 1259 "bison.tab.c" /* yacc.c:1646  */
+#line 1260 "bison.tab.c" /* yacc.c:1646  */
     break;
 
 
-#line 1263 "bison.tab.c" /* yacc.c:1646  */
+#line 1264 "bison.tab.c" /* yacc.c:1646  */
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1487,7 +1488,7 @@ yyreturn:
 #endif
   return yyresult;
 }
-#line 52 "bison.y" /* yacc.c:1906  */
+#line 53 "bison.y" /* yacc.c:1906  */
 
 
 /****************************************************************
@@ -1507,11 +1508,14 @@ int main(int argc, char** argv) {
     init();
     commandDone = 0;
 
-    printf("C.Y.L@computer:%s$ ", get_current_dir_name()); //打印提示符信息
+    printf("cyl@computer:%s$ ", get_current_dir_name()); //打印提示符信息
 
 	while(1)
 	{
         i = 0;
+        c = getchar();
+        if(c != -1)
+            ungetc(c,stdin);
 		yyparse();
         strcpy(lastBuff, inputBuff);
 
@@ -1521,7 +1525,7 @@ int main(int argc, char** argv) {
 		}
 
         inputBuff[0] = '\0';
-        printf("C.Y.L@computer:%s$ ", get_current_dir_name()); //打印提示符信息
+        printf("cyl@computer:%s$ ", get_current_dir_name()); //打印提示符信息
 	}
 	return EXIT_SUCCESS;
 }

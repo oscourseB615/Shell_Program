@@ -24,6 +24,6 @@
 "?"				{strcat(inputBuff, "?");}
 [ \t]+			{}
 \n 				{return EOL;}
-[^ \n\t]+		{strcat(inputBuff, " "); strcat(inputBuff, yytext); return STRING;}
+[A-z_]+			{strcat(inputBuff, " "); strcat(inputBuff, yytext); return STRING;}
 
 %%
